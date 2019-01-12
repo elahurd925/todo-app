@@ -1,0 +1,106 @@
+@for $i from 1 through 10 {
+	$val: $i * 5;
+	.pad-top-#{$val} {
+		padding-top: #{$val}px;
+	}
+
+	.pad-bottom-#{$val} {
+		padding-bottom: #{$val}px;
+	}
+
+	.pad-left-#{$val} {
+		padding-left: #{$val}px;
+	}
+
+	.pad-right-#{$val} {
+		padding-right: #{$val}px;
+	}
+
+	.pad-all-#{$val} {
+		padding: #{$val}px;
+	}
+
+	.margin-top-#{$val} {
+		padding-top: #{$val}px;
+	}
+
+	.margin-bottom-#{$val} {
+		padding-bottom: #{$val}px;
+	}
+
+	.margin-left-#{$val} {
+		padding-left: #{$val}px;
+	}
+
+	.margin-right-#{$val} {
+		padding-right: #{$val}px;
+	}
+
+	.margin-all-#{$val} {
+		padding: #{$val}px;
+	}
+}
+
+body {
+	background-color: #f3f3f3;
+}
+
+@media (min-width: 400px) {
+	#todo-page {
+		width: 100%
+	}
+}
+
+@media (min-width: 768px) {
+	#todo-page {
+		width: 75%;
+	}
+}
+
+@media (min-width: 1000px) {
+	#todo-page {
+		width: 50%;
+	}
+}
+
+#todo-page {
+	background-color: white;
+	padding-bottom: 25px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+button {
+	margin: 5px;
+}
+
+ul {
+	list-style: none;
+	padding: 0px;
+}
+
+li {
+	padding-left: 0px;
+}
+
+.completed {
+	text-decoration: line-through;
+	color: #aaaaaa;
+}
+
+.fade-enter {
+	opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+	opacity: 1;
+	transition: opacity 500ms ease-in;
+}
+
+.fade-leave {
+	opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+	opacity: 0.01;
+	transition: opacity 300ms ease-out;
+}
