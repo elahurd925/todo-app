@@ -43,15 +43,22 @@
 
 body {
 	background-color: #f3f3f3;
+	font-size: 20px;
+	word-break: break-all;
 }
 
-@media (min-width: 400px) {
+.close {
+	padding-top: 2px;
+	font-size: 1.75rem;
+}
+
+@media only screen and (min-width: 400px) {
 	#todo-page {
 		width: 100%
 	}
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
 	#todo-page {
 		width: 75%;
 	}
@@ -85,6 +92,24 @@ li {
 .completed {
 	text-decoration: line-through;
 	color: #aaaaaa;
+}
+
+.validation {
+	padding-top: 5px;
+	height: 1.5em;
+	position: relative;
+
+	p {
+		font-size: 80%;
+		height: 100%;
+		position: absolute;
+		color: #bd0303;
+	}
+}
+
+.validation-error, .validation-error:focus {
+	outline: none;
+	border: 2px solid #bd0303;
 }
 
 .fade-enter {

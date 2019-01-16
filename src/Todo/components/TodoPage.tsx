@@ -17,6 +17,7 @@ export interface TodoPageProps {
 
 interface TodoPageState {
 	todoText: string,
+	isValidTodo: boolean,
 	completedItemIds: string[]
 }
 
@@ -27,19 +28,30 @@ class TodoPage extends React.Component<TodoPageProps, TodoPageState> {
 
 		this.state = {
 			todoText: '',
+			isValidTodo: true,
 			completedItemIds: []
 		};
 	}
 
 	onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
-			this.props.addItem(this.state.todoText);
-			this.setState({ todoText: '' });
+			if (this.state.todoText.length === 0) {
+				this.setState({ isValidTodo: false });
+			} else {
+				this.props.addItem(this.state.todoText);
+				this.setState({ isValidTodo: true, todoText: '' });
+			}
 		}
 	}
 
 	onTodoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({ todoText: event.target.value });
+		this.setState({ todoText: event.target.value }, () => {
+			if (this.state.todoText.length > 0) {
+				this.setState({ isValidTodo: true });
+			} else {
+				this.setState({ isValidTodo: false });
+			}
+		});
 	}
 
 	onRemove = (id: string) => {
@@ -74,19 +86,24 @@ class TodoPage extends React.Component<TodoPageProps, TodoPageState> {
 	}
 
 	render() {
+		const { isValidTodo } = this.state;
+
 		return (
 			<div id="todo-page" className="container pad-top-25">
 				<h1 className="text-center">To-Do</h1>
 				<div className="row justify-content-center pad-bottom-10">
-					<button type="button" className="btn btn-info btn-sm" onClick={this.removeAllItems}>Clear All</button>
-					<button type="button" className="btn btn-info btn-sm" onClick={this.removeCompletedItems}>Clear Completed</button>
+					<button type="button" className="btn btn-info" onClick={this.removeAllItems}>Clear All</button>
+					<button type="button" className="btn btn-info" onClick={this.removeCompletedItems}>Clear Completed</button>
 				</div>
 				<div className="row justify-content-center">
-					<input type="text" placeholder="What needs to be done?" className="pad-all-5"
+					<input type="text" placeholder="What needs to be done?" className={`pad-all-5 ${ !isValidTodo ? 'validation-error' : '' }`}
 						value={this.state.todoText}
 						onChange={this.onTodoChange}
 						onKeyPress={this.onKeyPress}
 					/>
+				</div>
+				<div className="row justify-content-center validation">
+					<p>{ isValidTodo ? '' : 'To-do cannot be empty!' }</p>
 				</div>
 				<div className="row justify-content-center pad-all-10">
 					<TodoList
