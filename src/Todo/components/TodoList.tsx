@@ -1,10 +1,10 @@
 import * as React from "react";
-import TodoListItem from "./TodoListItem";
+import TodoListItem from "src/Todo/components/TodoListItem";
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import TodoItem from "../models/TodoItem";
+import TodoItem from "src/Todo/models/TodoItem";
 
 export interface TodoListProps {
-	items: TodoItem[],
+	items: { [id: string]: TodoItem },
 	completedItems: string[],
 	onRemove: (id: string) => void,
 	onComplete: (id: string) => void,
@@ -19,12 +19,12 @@ const TodoList: React.SFC<TodoListProps> = (props: TodoListProps) => {
 				transitionEnterTimeout={500}
 				transitionLeaveTimeout={300}
 			>
-				{props.items.map((item) => {
+				{Object.keys(props.items).map((itemId) => {
 					return <TodoListItem
-						id={item.id}
-						key={item.id}
-						item={item.text}
-						completed={props.completedItems.find((id) => id === item.id) ? true : false}
+						id={itemId}
+						key={itemId}
+						item={props.items[itemId].text}
+						completed={props.completedItems.find((id) => id === itemId) ? true : false}
 						onRemove={props.onRemove}
 						onComplete={props.onComplete}
 						onIncomplete={props.onIncomplete} />

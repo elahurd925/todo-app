@@ -2,13 +2,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import TodoList from "./TodoList";
+import TodoList from "src/Todo/components/TodoList";
 import * as actions from "src/Todo/actions";
-import TodoItem from "../models/TodoItem";
 import { State } from "src/models/State";
+import TodoItem from "src/Todo/models/TodoItem";
 
 export interface TodoPageProps {
-	items: TodoItem[],
+	items: { [id: string]: TodoItem },
 	addItem: (item: string) => void,
 	removeItem: (id: string) => void,
 	removeAllItems: () => void,
