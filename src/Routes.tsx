@@ -7,7 +7,7 @@ export function getRoutes() {
 	return (
 		<Switch>
 			<Route exact path="/" component={TodoPage} />
-			<Route exact path="/about" component={About} />
+			<Route path="/about" component={About} />
 		</Switch>
 	);
 }

@@ -6,6 +6,7 @@ import TodoList from "src/Todo/components/TodoList";
 import * as actions from "src/Todo/actions";
 import { State } from "src/models/State";
 import TodoItem from "src/Todo/models/TodoItem";
+import { validateTodoInput } from "src/Todo/utils/validation";
 
 export interface TodoPageProps {
 	items: { [id: string]: TodoItem },
@@ -18,6 +19,7 @@ export interface TodoPageProps {
 interface TodoPageState {
 	todoText: string,
 	isValidTodo: boolean,
+	errorText: string,
 	completedItemIds: string[]
 }
 
@@ -29,27 +31,30 @@ class TodoPage extends React.Component<TodoPageProps, TodoPageState> {
 		this.state = {
 			todoText: '',
 			isValidTodo: true,
+			errorText: '',
 			completedItemIds: []
 		};
 	}
 
 	onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
-			if (this.state.todoText.length === 0) {
-				this.setState({ isValidTodo: false });
+			const errorText = validateTodoInput(this.state.todoText);
+			if (errorText) {
+				this.setState({ isValidTodo: false, errorText });
 			} else {
 				this.props.addItem(this.state.todoText);
-				this.setState({ isValidTodo: true, todoText: '' });
+				this.setState({ isValidTodo: true, errorText: '', todoText: '' });
 			}
 		}
 	}
 
 	onTodoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({ todoText: event.target.value }, () => {
-			if (this.state.todoText.length > 0) {
-				this.setState({ isValidTodo: true });
+			const errorText = validateTodoInput(this.state.todoText);
+			if (errorText) {
+				this.setState({ isValidTodo: false, errorText });
 			} else {
-				this.setState({ isValidTodo: false });
+				this.setState({ isValidTodo: true, errorText: '' });
 			}
 		});
 	}
@@ -86,7 +91,7 @@ class TodoPage extends React.Component<TodoPageProps, TodoPageState> {
 	}
 
 	render() {
-		const { isValidTodo } = this.state;
+		const { isValidTodo, errorText } = this.state;
 
 		return (
 			<div id="todo-page" className="container pad-top-25">
@@ -103,7 +108,7 @@ class TodoPage extends React.Component<TodoPageProps, TodoPageState> {
 					/>
 				</div>
 				<div className="row justify-content-center validation">
-					<p>{ isValidTodo ? '' : 'To-do cannot be empty!' }</p>
+					<p>{ errorText }</p>
 				</div>
 				<div className="row justify-content-center pad-all-10">
 					<TodoList
