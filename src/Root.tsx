@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
 
-import configureStore from './store/configureStore';
-import rootReducer from './reducers';
+import configureStore from 'src/store/configureStore';
+import rootReducer from 'src/reducers';
+import { State } from 'src/models/State';
 
 interface Props {
-	initialState?: any // create State object
+	initialState?: State
 	children?: any
 }
 
